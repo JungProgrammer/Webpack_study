@@ -11,6 +11,9 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
+    resolve: {
+        extensions: ['.js', '.ts']
+    },
     optimization: {
         minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
     },
@@ -30,13 +33,10 @@ module.exports = {
     module: {
         rules: [
         {
-            test: /\.m?js$/,
+            test: /\.(js|ts)$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
+                    loader: 'babel-loader'
             }
         }, {
             test: /\.css$/,
@@ -49,6 +49,12 @@ module.exports = {
                 },
                 'css-loader',
             ],
+        }, {
+            test: /\.less$/,
+            use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader']
+        }, {
+            test: /\.scss$/,
+            use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
         }
         ],
     },
